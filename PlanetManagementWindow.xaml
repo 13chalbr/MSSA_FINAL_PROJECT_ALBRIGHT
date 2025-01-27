@@ -1,0 +1,53 @@
+﻿<Window x:Class="MSSA_FINAL_PROJECT_WORKING.PlanetManagementWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSSA_FINAL_PROJECT_WORKING"
+        mc:Ignorable="d"
+        Title="Planet Management" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="PlanetDataGrid" AutoGenerateColumns="False" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"
+                  CellEditEnding="PlanetDataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridComboBoxColumn Header="Color" SelectedValueBinding="{Binding ColorName}" Width="*">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{x:Static local:ColorHelper.ColorNames}"/>
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{x:Static local:ColorHelper.ColorNames}"/>
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="X Position" Binding="{Binding XPos}"/>
+                <DataGridTextColumn Header="Y Position" Binding="{Binding YPos}"/>
+                <DataGridTextColumn Header="Z Position" Binding="{Binding ZPos}"/>
+                <DataGridTextColumn Header="X Velocity" Binding="{Binding XVel}"/>
+                <DataGridTextColumn Header="Y Velocity" Binding="{Binding YVel}"/>
+                <DataGridTextColumn Header="Z Velocity" Binding="{Binding ZVel}"/>
+                <DataGridTextColumn Header="Mass" Binding="{Binding Mass}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Add Planet" Click="AddPlanetButton_Click" Margin="0,0,10,0"/>
+            <Button Content="Remove Planet" Click="RemovePlanetButton_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,0,50">
+            <CheckBox x:Name="SimulationStatusCheckBox" Content="Simulation Status" 
+                      IsEnabled="False" Background="Red" Margin="0,0,10,0"/>
+            <Button Content="Run Simulation" Click="RunSimulationButton_Click"/>
+        </StackPanel>
+        <Button x:Name="AnimateButton" Content="Animate" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                Margin="10,0,0,10" Click="AnimateButton_Click" IsEnabled="False"/>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Planet System Presets" Click="PlanetSystemPresetsButton_Click" Margin="0,0,0,10"/>
+            <Button Content="Read System Data from CSV" Click="ReadSystemDataButton_Click" Margin="0,0,0,10"/>
+            <Button x:Name="WriteDataButton" Content="Write Data to CSV" Click="WriteDataButton_Click" IsEnabled="False"/>
+        </StackPanel>
+    </Grid>
+</Window>
