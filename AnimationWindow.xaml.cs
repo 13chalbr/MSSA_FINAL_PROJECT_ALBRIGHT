@@ -35,8 +35,6 @@ namespace MSSA_FINAL_PROJECT_WORKING
         {
             InitializeComponent();
 
-            Debug.WriteLine("AnimationWindow constructor called");
-
             this.totalSimulationTime = totalSimulationTime; // Initialize the total simulation time
             this.timeStep = timeStep; // Initialize the time step
 
@@ -143,11 +141,11 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
                 viewport.Children.Add(linesVisual);
 
-                // Create a sphere to represent the planet
+                // Create a sphere to represent the planet with a solid color
                 var sphere = new SphereVisual3D
                 {
                     Radius = 0.05,
-                    Fill = new SolidColorBrush(planet.Color)
+                    Material = new DiffuseMaterial(new SolidColorBrush(planet.Color))
                 };
                 viewport.Children.Add(sphere);
 

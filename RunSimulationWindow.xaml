@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSSA_FINAL_PROJECT_WORKING"
         mc:Ignorable="d"
-         Title="Run Simulation" Height="200" Width="300">
+        Title="Run Simulation" Height="200" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <Label Content="Simulation Time (days)"/>
-            <TextBox x:Name="SimulationTimeTextBox"/>
+            <TextBox x:Name="SimulationTimeTextBox" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
             <Label Content="Time Step (hours)"/>
-            <TextBox x:Name="TimeStepTextBox"/>
+            <TextBox x:Name="TimeStepTextBox" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
             <Button Content="Run" Click="RunButton_Click"/>
         </StackPanel>
     </Grid>

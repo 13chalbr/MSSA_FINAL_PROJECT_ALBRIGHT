@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
         public List<double> SystemPosVel_PAST { get; set; }
         public List<double> SystemTime_PAST { get; set; }
 
-        public RunSimulationWindow(int planetNumber, List<double> WorkingSystemPositionVelocity_CONCAT, List<double> SystemMass_CONCAT,  double timeStep)
+        public RunSimulationWindow(int planetNumber, List<double> WorkingSystemPositionVelocity_CONCAT, List<double> SystemMass_CONCAT, double timeStep)
         {
             InitializeComponent();
             this.planetNumber = planetNumber;
@@ -41,38 +42,66 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
         private async void RunButton_Click(object sender, RoutedEventArgs e)
         {
-            double simulationTime = 86400 * int.Parse(SimulationTimeTextBox.Text); // User inputs days, converts to seconds
-            double timeStep = 3600 * int.Parse(TimeStepTextBox.Text); // user inputs hours, converts to seconds
-            double t = 0; // Placeholder for simulation beginning time (seconds)
-            int stepNum = (int)Math.Round((simulationTime - t) / timeStep);
-
-            // Puts initial conditions into "PAST" lists for PosVel and Time.
-            SystemPosVel_PAST = SystemPosVel_PAST.Concat(WorkingSystemPositionVelocity_CONCAT).ToList();
-            SystemTime_PAST.Add(t);
-
-            ProgressBarWindow progressBarWindow = new ProgressBarWindow();
-            progressBarWindow.Show();
-
-            await Task.Run(() =>
+            if (ValidateInputs())
             {
-                for (int i = 0; i < stepNum; i++)
+                double simulationTime = 86400 * int.Parse(SimulationTimeTextBox.Text); // User inputs days, converts to seconds
+                double timeStep = 3600 * int.Parse(TimeStepTextBox.Text); // user inputs hours, converts to seconds
+                double t = 0; // Placeholder for simulation beginning time (seconds)
+                int stepNum = (int)Math.Round((simulationTime - t) / timeStep);
+
+                // Puts initial conditions into "PAST" lists for PosVel and Time.
+                SystemPosVel_PAST = SystemPosVel_PAST.Concat(WorkingSystemPositionVelocity_CONCAT).ToList();
+                SystemTime_PAST.Add(t);
+
+                ProgressBarWindow progressBarWindow = new ProgressBarWindow();
+                progressBarWindow.Show();
+
+                await Task.Run(() =>
                 {
-                    WorkingSystemPositionVelocity_CONCAT = Methods.RK4Compute(in WorkingSystemPositionVelocity_CONCAT, in SystemMass_CONCAT, in timeStep, in planetNumber);
-                    t += timeStep;
-                    SystemPosVel_PAST = SystemPosVel_PAST.Concat(WorkingSystemPositionVelocity_CONCAT).ToList(); // Adds to past for collection
-                    SystemTime_PAST.Add(t);  // Adds to past for collection
-                }
-            });
+                    for (int i = 0; i < stepNum; i++)
+                    {
+                        WorkingSystemPositionVelocity_CONCAT = Methods.RK4Compute(in WorkingSystemPositionVelocity_CONCAT, in SystemMass_CONCAT, in timeStep, in planetNumber);
+                        t += timeStep;
+                        SystemPosVel_PAST = SystemPosVel_PAST.Concat(WorkingSystemPositionVelocity_CONCAT).ToList(); // Adds to past for collection
+                        SystemTime_PAST.Add(t);  // Adds to past for collection
+                    }
+                });
 
-            progressBarWindow.Close();
-            MessageBox.Show($"Simulation completed and data stored. \nNumber of planets: {planetNumber}.\nNumber of calculated intervals: {stepNum}.");
-            SimulationCompleted?.Invoke(this, timeStep);
+                progressBarWindow.Close();
+                MessageBox.Show($"Simulation completed and data stored. Number of planets: {planetNumber}");
+                SimulationCompleted?.Invoke(this, timeStep);
 
-            // Pass the data back to the PlanetManagementWindow
-            ((PlanetManagementWindow)Owner).SystemPosVel_PAST = SystemPosVel_PAST;
-            ((PlanetManagementWindow)Owner).SystemTime_PAST = SystemTime_PAST;
+                // Pass the data back to the PlanetManagementWindow
+                ((PlanetManagementWindow)Owner).SystemPosVel_PAST = SystemPosVel_PAST;
+                ((PlanetManagementWindow)Owner).SystemTime_PAST = SystemTime_PAST;
 
-            this.Close();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please enter valid numeric values for simulation time and time step.");
+            }
+        }
+
+        private bool ValidateInputs()
+        {
+            return IsNumeric(SimulationTimeTextBox.Text) && IsNumeric(TimeStepTextBox.Text);
+        }
+
+        private bool IsNumeric(string text)
+        {
+            return double.TryParse(text, out _);
+        }
+
+        private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private bool IsTextNumeric(string text)
+        {
+            Regex regex = new Regex("[^0-9.-]+"); // regex that matches disallowed text
+            return !regex.IsMatch(text);
         }
     }
 }
