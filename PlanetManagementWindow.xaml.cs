@@ -58,22 +58,6 @@ namespace MSSA_FINAL_PROJECT_WORKING
             PlanetDataGrid.ItemsSource = Planets;
         }
 
-        private void AddPlanetButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddPlanetWindow addPlanetWindow = new AddPlanetWindow(Planets);
-            addPlanetWindow.Show();
-            ResetSimulationStatus();
-        }
-
-        private void RemovePlanetButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PlanetDataGrid.SelectedItem is Planet selectedPlanet)
-            {
-                Planets.Remove(selectedPlanet);
-                ResetSimulationStatus();
-            }
-        }
-
         private void RunSimulationButton_Click(object sender, RoutedEventArgs e)
         {
             // Filter out empty rows
