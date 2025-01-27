@@ -24,18 +24,20 @@
                         </Style>
                     </DataGridComboBoxColumn.EditingElementStyle>
                 </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="X Position" Binding="{Binding XPos}"/>
-                <DataGridTextColumn Header="Y Position" Binding="{Binding YPos}"/>
-                <DataGridTextColumn Header="Z Position" Binding="{Binding ZPos}"/>
-                <DataGridTextColumn Header="X Velocity" Binding="{Binding XVel}"/>
-                <DataGridTextColumn Header="Y Velocity" Binding="{Binding YVel}"/>
-                <DataGridTextColumn Header="Z Velocity" Binding="{Binding ZVel}"/>
-                <DataGridTextColumn Header="Mass" Binding="{Binding Mass}"/>
+                <DataGridTextColumn Header="X Pos (cm)" Binding="{Binding XPos}"/>
+                <DataGridTextColumn Header="Y Pos (cm)" Binding="{Binding YPos}"/>
+                <DataGridTextColumn Header="Z Pos (cm)" Binding="{Binding ZPos}"/>
+                <DataGridTextColumn Header="X Vel (cm/s)" Binding="{Binding XVel}"/>
+                <DataGridTextColumn Header="Y Vel (cm/s)" Binding="{Binding YVel}"/>
+                <DataGridTextColumn Header="Z Vel (cm/s)" Binding="{Binding ZVel}"/>
+                <DataGridTextColumn Header="Mass (grams)" Binding="{Binding Mass}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
-            <Button Content="Add Planet" Click="AddPlanetButton_Click" Margin="0,0,10,0"/>
-            <Button Content="Remove Planet" Click="RemovePlanetButton_Click"/>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Add Planet" Click="AddPlanetButton_Click" Margin="0,0,10,10"/>
+            <Button Content="Edit Planet" Click="EditPlanetButton_Click" Margin="0,0,10,10"/>
+            <Button Content="Remove Planet" Click="RemovePlanetButton_Click" Margin="0,0,10,10"/>
+            <Button Content="Save System To Presets" Click="SaveSystemToPresetsButton_Click"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,0,50">
             <CheckBox x:Name="SimulationStatusCheckBox" Content="Simulation Status" 

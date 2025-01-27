@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,17 @@ namespace MSSA_FINAL_PROJECT_WORKING
         private bool isPaused = false;
         private double animationSpeed = 1.0;
         private double elapsedTime;
+        private double totalSimulationTime; // New field to store total simulation time in seconds
+        private double timeStep; // New field to store time step in seconds
 
-        public AnimationWindow(List<List<double>> xList, List<List<double>> yList, List<List<double>> zList, List<string> planetNames, List<Color> planetColors)
+        public AnimationWindow(List<List<double>> xList, List<List<double>> yList, List<List<double>> zList, List<string> planetNames, List<Color> planetColors, double totalSimulationTime, double timeStep)
         {
             InitializeComponent();
+
+            Debug.WriteLine("AnimationWindow constructor called");
+
+            this.totalSimulationTime = totalSimulationTime; // Initialize the total simulation time
+            this.timeStep = timeStep; // Initialize the time step
 
             var viewport = new HelixViewport3D();
             var modelGroup = new Model3DGroup();
@@ -138,7 +146,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
                 // Create a sphere to represent the planet
                 var sphere = new SphereVisual3D
                 {
-                    Radius = 0.2,
+                    Radius = 0.05,
                     Fill = new SolidColorBrush(planet.Color)
                 };
                 viewport.Children.Add(sphere);
@@ -206,6 +214,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
             // Start the animation
             startTime = DateTime.Now;
             animationStarted = true;
+
             CompositionTarget.Rendering += OnRendering;
         }
 
@@ -213,14 +222,17 @@ namespace MSSA_FINAL_PROJECT_WORKING
         {
             if (!animationStarted || isPaused) return;
 
-            elapsedTime = (DateTime.Now - startTime).TotalSeconds * animationSpeed;
-            var duration = 10.0; // Total duration of the animation in seconds
+            elapsedTime = (DateTime.Now - startTime).TotalSeconds * animationSpeed * 86400; // Adjust elapsed time to days
+            var duration = totalSimulationTime; // Use the total simulation time
 
             // Restart elapsed time if it exceeds the duration
             elapsedTime %= duration;
 
+            // Calculate elapsed time in days
+            double elapsedDays = elapsedTime / 86400.0;
+
             // Update the elapsed time display
-            ElapsedTimeTextBlock.Text = $"Elapsed Time: {elapsedTime:F2} seconds";
+            ElapsedTimeTextBlock.Text = $"Elapsed Time: {elapsedDays:F2} days";
 
             for (int i = 0; i < transforms.Length; i++)
             {
@@ -248,15 +260,19 @@ namespace MSSA_FINAL_PROJECT_WORKING
             }
         }
 
-        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        private void PauseResumeButton_Click(object sender, RoutedEventArgs e)
         {
-            isPaused = true;
-        }
-
-        private void ResumeButton_Click(object sender, RoutedEventArgs e)
-        {
-            isPaused = false;
-            startTime = DateTime.Now - TimeSpan.FromSeconds(elapsedTime / animationSpeed); // Adjust start time to account for pause duration
+            if (isPaused)
+            {
+                isPaused = false;
+                PauseResumeButton.Content = "Pause";
+                startTime = DateTime.Now - TimeSpan.FromSeconds(elapsedTime / (animationSpeed * 86400)); // Adjust start time to account for pause duration
+            }
+            else
+            {
+                isPaused = true;
+                PauseResumeButton.Content = "Resume";
+            }
         }
 
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

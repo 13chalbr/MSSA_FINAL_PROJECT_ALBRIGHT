@@ -1,11 +1,11 @@
-﻿<Window x:Class="MSSA_FINAL_PROJECT_WORKING.AddPlanetWindow"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window x:Class="MSSA_FINAL_PROJECT_WORKING.EditPlanetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSSA_FINAL_PROJECT_WORKING"
         mc:Ignorable="d"
-        Title="Add Planet" Height="550" Width="1000">
+        Title="Edit Planet" Height="550" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -53,7 +53,7 @@
             <Label Content="Mass (enter in terms of Earth Masses {i.e. Sun ~ 300,000}):"/>
             <TextBox x:Name="MassTextBox" Width="200" Margin="0,0,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
 
-            <Button Content="Add" Width="100" Height="30" Click="AddButton_Click"/>
+            <Button Content="Save" Width="100" Height="30" Click="SaveButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
