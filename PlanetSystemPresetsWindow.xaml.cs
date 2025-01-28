@@ -19,11 +19,13 @@ namespace MSSA_FINAL_PROJECT_WORKING
     {
         private ObservableCollection<Planet> _planets;
         private List<Preset> _presets;
+        private PlanetManagementWindow _parentWindow;
 
-        public PlanetSystemPresetsWindow(ObservableCollection<Planet> planets)
+        public PlanetSystemPresetsWindow(ObservableCollection<Planet> planets, PlanetManagementWindow parentWindow)
         {
             InitializeComponent();
             _planets = planets;
+            _parentWindow = parentWindow;
             LoadPresets();
         }
 
@@ -43,6 +45,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
                 {
                     _planets.Add(planet);
                 }
+                _parentWindow.ResetSimulationStatus(); // Reset the simulation status
                 this.Close();
             }
         }

@@ -7,10 +7,30 @@
         mc:Ignorable="d"
         Title="welcome" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="Welcome to the Planet Simulation App!" 
-                   HorizontalAlignment="Center" VerticalAlignment="Top" 
-                   Margin="10" FontSize="20"/>
-        <Button Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                Click="StartButton_Click"/>
+        <!-- Background Image -->
+        <Image Source="C:\Users\13cha\source\repos\MSSA_FINAL_PROJECT_WORKING\Images\LANDING_ART.jpg" Stretch="Fill"/>
+
+        <!-- Title Image -->
+        <Image Source="C:\Users\13cha\source\repos\MSSA_FINAL_PROJECT_WORKING\Images\INTRO_TEXT2.png" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="15,15,15,0"/>
+
+        <!-- Enter Button -->
+        <Button Content="Enter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40" Click="StartButton_Click" Width="100" Height="40"/>
+
+        <!-- TextBox -->
+        <TextBox Text="This application was created in C# and WPF, serving as a demonstration of knowledge acquired during the Microsoft Systems and Software Academy (MSSA) Cloud Application Design pathway. The primary function of this program is to compute trajectories for user-input planetary systems utilizing the laws of gravitation and Runge-Kutta (RK4) methods to predict locations of planets over a given time interval (given a starting position / velocity), and display this prediction in an animated and graphical format. Programming concepts implemented in this project include: 
+- Scalable, complex data management - Object oriented design and collections - Data persistence / database implemet (JSON) - System simulation and scientific animation - Graphical User Interface (GUI)
+                                                                                                                                                                                               Assumptions: objects are represented as point masses that do not respond to collisions (i.e. bodies may pass through one another)...
+                                                                                                                                                                                                      References:
+- https://prappleizer.github.io/Tutorials/RK4/RK4_Tutorial.html – RK4 orbit application inspiration
+                                      - https://www.youtube.com/watch?v=clqJ7hBL4-U – Python RK4 examples helpful for C# rewrite
+                                                              - MS Copilot – used for assistance in animation and GUI design."
+                 HorizontalAlignment="Center" VerticalAlignment="Center" 
+                 Width="700" Height="200" Background="#80FFFFFF" Foreground="Black" 
+                 BorderThickness="0" TextWrapping="Wrap" IsReadOnly="True"/>
+
+        <!-- Additional Text -->
+        <TextBlock Text="CHRIS ALBRIGHT - 28JAN2025" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,75,0,0" Foreground="White"/>
+        <TextBlock Text="Version 1.2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,75,15,0" Foreground="White"/>
+        <TextBlock Text="MSSA CCAD 16 - FINAL PROJECT" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,15" Foreground="White"/>
     </Grid>
 </Window>

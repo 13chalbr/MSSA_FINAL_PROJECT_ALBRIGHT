@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace MSSA_FINAL_PROJECT_WORKING
 {
-    /// <summary>
-    /// Interaction logic for ProgressBarWindow.xaml
-    /// </summary>
+   
     public partial class ProgressBarWindow : Window
     {
         public ProgressBarWindow()

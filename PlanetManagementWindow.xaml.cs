@@ -154,7 +154,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
             ResetSimulationStatus();
         }
 
-        private void ResetSimulationStatus()
+        public void ResetSimulationStatus()
         {
             simulationRun = false;
             AnimateButton.IsEnabled = false;
@@ -165,15 +165,10 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
         private void PlanetSystemPresetsButton_Click(object sender, RoutedEventArgs e)
         {
-            PlanetSystemPresetsWindow presetsWindow = new PlanetSystemPresetsWindow(Planets);
+            PlanetSystemPresetsWindow presetsWindow = new PlanetSystemPresetsWindow(Planets, this);
             presetsWindow.Show();
         }
 
-        private void ReadSystemDataButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReadSystemDataWindow readDataWindow = new ReadSystemDataWindow(Planets);
-            readDataWindow.Show();
-        }
 
         private void WriteDataButton_Click(object sender, RoutedEventArgs e)
         {
@@ -203,6 +198,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
                     Planets = Planets.ToList()
                 };
                 PresetDatabase.SavePreset(preset);
+                                
             }
         }
         private void EditPlanetButton_Click(object sender, RoutedEventArgs e)
@@ -222,6 +218,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
                 MessageBox.Show("Please select a planet to edit.");
             }
         }
+        
     }
 }
 

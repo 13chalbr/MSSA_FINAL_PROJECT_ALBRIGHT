@@ -30,6 +30,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
         private double elapsedTime;
         private double totalSimulationTime; // New field to store total simulation time in seconds
         private double timeStep; // New field to store time step in seconds
+        private ProgressBarWindow progressBarWindow; // New field for ProgressBarWindow
 
         public AnimationWindow(List<List<double>> xList, List<List<double>> yList, List<List<double>> zList, List<string> planetNames, List<Color> planetColors, double totalSimulationTime, double timeStep)
         {
@@ -37,6 +38,9 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
             this.totalSimulationTime = totalSimulationTime; // Initialize the total simulation time
             this.timeStep = timeStep; // Initialize the time step
+                                      // Show the progress bar window
+            progressBarWindow = new ProgressBarWindow();
+            progressBarWindow.Show();
 
             var viewport = new HelixViewport3D();
             var modelGroup = new Model3DGroup();
@@ -45,34 +49,67 @@ namespace MSSA_FINAL_PROJECT_WORKING
             var axes = new LinesVisual3D
             {
                 Color = Colors.Black,
-                Thickness = 2
+                Thickness = 1 // Reduced thickness
             };
-            axes.Points.Add(new Point3D(-10, 0, 0));
-            axes.Points.Add(new Point3D(10, 0, 0)); // X axis
-            axes.Points.Add(new Point3D(0, -10, 0));
-            axes.Points.Add(new Point3D(0, 10, 0)); // Y axis
-            axes.Points.Add(new Point3D(0, 0, -10));
-            axes.Points.Add(new Point3D(0, 0, 10)); // Z axis
+            axes.Points.Add(new Point3D(-50, 0, 0));
+            axes.Points.Add(new Point3D(50, 0, 0)); // X axis
+            axes.Points.Add(new Point3D(0, -50, 0));
+            axes.Points.Add(new Point3D(0, 50, 0)); // Y axis
+            axes.Points.Add(new Point3D(0, 0, -50));
+            axes.Points.Add(new Point3D(0, 0, 50)); // Z axis
 
-            // Add tick marks for X axis
-            for (double i = -10; i <= 10; i++)
+            // Add tick marks and values for X axis
+            for (double i = -50; i <= 50; i++)
             {
                 axes.Points.Add(new Point3D(i, -0.1, 0));
                 axes.Points.Add(new Point3D(i, 0.1, 0));
+
+                if (i % 5 == 0) // Add value labels at every 5th tick mark
+                {
+                    var xTickLabel = new BillboardTextVisual3D
+                    {
+                        Text = i.ToString(),
+                        Position = new Point3D(i, -0.5, 0),
+                        Foreground = new SolidColorBrush(Colors.Black)
+                    };
+                    viewport.Children.Add(xTickLabel);
+                }
             }
 
-            // Add tick marks for Y axis
-            for (double i = -10; i <= 10; i++)
+            // Add tick marks and values for Y axis
+            for (double i = -50; i <= 50; i++)
             {
                 axes.Points.Add(new Point3D(-0.1, i, 0));
                 axes.Points.Add(new Point3D(0.1, i, 0));
+
+                if (i % 5 == 0) // Add value labels at every 5th tick mark
+                {
+                    var yTickLabel = new BillboardTextVisual3D
+                    {
+                        Text = i.ToString(),
+                        Position = new Point3D(-0.5, i, 0),
+                        Foreground = new SolidColorBrush(Colors.Black)
+                    };
+                    viewport.Children.Add(yTickLabel);
+                }
             }
 
-            // Add tick marks for Z axis
-            for (double i = -10; i <= 10; i++)
+            // Add tick marks and values for Z axis
+            for (double i = -50; i <= 50; i++)
             {
                 axes.Points.Add(new Point3D(0, -0.1, i));
                 axes.Points.Add(new Point3D(0, 0.1, i));
+
+                if (i % 5 == 0) // Add value labels at every 5th tick mark
+                {
+                    var zTickLabel = new BillboardTextVisual3D
+                    {
+                        Text = i.ToString(),
+                        Position = new Point3D(0, -0.5, i),
+                        Foreground = new SolidColorBrush(Colors.Black)
+                    };
+                    viewport.Children.Add(zTickLabel);
+                }
             }
 
             viewport.Children.Add(axes);
@@ -81,24 +118,51 @@ namespace MSSA_FINAL_PROJECT_WORKING
             var xLabel = new BillboardTextVisual3D
             {
                 Text = "X (units)",
-                Position = new Point3D(10, 0, 0),
-                Foreground = new SolidColorBrush(Colors.Black)
+                Position = new Point3D(50, 0, 0),
+                Foreground = new SolidColorBrush(Colors.Red), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
+            };
+            var xLabelNegative = new BillboardTextVisual3D
+            {
+                Text = "X (units)",
+                Position = new Point3D(-50, 0, 0),
+                Foreground = new SolidColorBrush(Colors.Red), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
             };
             var yLabel = new BillboardTextVisual3D
             {
                 Text = "Y (units)",
-                Position = new Point3D(0, 10, 0),
-                Foreground = new SolidColorBrush(Colors.Black)
+                Position = new Point3D(0, 50, 0),
+                Foreground = new SolidColorBrush(Colors.Green), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
+            };
+            var yLabelNegative = new BillboardTextVisual3D
+            {
+                Text = "Y (units)",
+                Position = new Point3D(0, -50, 0),
+                Foreground = new SolidColorBrush(Colors.Green), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
             };
             var zLabel = new BillboardTextVisual3D
             {
                 Text = "Z (units)",
-                Position = new Point3D(0, 0, 10),
-                Foreground = new SolidColorBrush(Colors.Black)
+                Position = new Point3D(0, 0, 50),
+                Foreground = new SolidColorBrush(Colors.Blue), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
+            };
+            var zLabelNegative = new BillboardTextVisual3D
+            {
+                Text = "Z (units)",
+                Position = new Point3D(0, 0, -50),
+                Foreground = new SolidColorBrush(Colors.Blue), // Changed color for better visibility
+                FontSize = 16 // Increased font size for better visibility
             };
             viewport.Children.Add(xLabel);
+            viewport.Children.Add(xLabelNegative);
             viewport.Children.Add(yLabel);
+            viewport.Children.Add(yLabelNegative);
             viewport.Children.Add(zLabel);
+            viewport.Children.Add(zLabelNegative);
 
             // Define planet trajectories using xList, yList, and zList
             var planetTrajectories = new List<dynamic>();
@@ -117,6 +181,10 @@ namespace MSSA_FINAL_PROJECT_WORKING
                     Color = planetColors[i],
                     Points = points
                 });
+
+                // Update progress bar on the UI thread
+                double progress = (double)(i + 1) / xList.Count;
+                Dispatcher.Invoke(() => progressBarWindow.ProgressBar.Value = progress * 100);
             }
 
             transforms = new TranslateTransform3D[planetTrajectories.Count];
@@ -209,6 +277,9 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
             MainGrid.Children.Add(legend);
 
+            // Close the progress bar window once the animation window launches
+            progressBarWindow.Close();
+
             // Start the animation
             startTime = DateTime.Now;
             animationStarted = true;
@@ -223,14 +294,22 @@ namespace MSSA_FINAL_PROJECT_WORKING
             elapsedTime = (DateTime.Now - startTime).TotalSeconds * animationSpeed * 86400; // Adjust elapsed time to days
             var duration = totalSimulationTime; // Use the total simulation time
 
-            // Restart elapsed time if it exceeds the duration
-            elapsedTime %= duration;
+            // Check if the animation has reached the end
+            if (elapsedTime >= duration)
+            {
+                elapsedTime = 0; // Reset elapsed time
+                startTime = DateTime.Now; // Reset start time
+            }
 
             // Calculate elapsed time in days
             double elapsedDays = elapsedTime / 86400.0;
 
             // Update the elapsed time display
             ElapsedTimeTextBlock.Text = $"Elapsed Time: {elapsedDays:F2} days";
+
+            // Update the progress bar
+            double progress = elapsedTime / duration;
+            progressBarWindow.ProgressBar.Value = progress * 100;
 
             for (int i = 0; i < transforms.Length; i++)
             {
@@ -256,6 +335,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
                     labels[i].Position = new Point3D(position.X, position.Y + 0.3, position.Z);
                 }
             }
+
         }
 
         private void PauseResumeButton_Click(object sender, RoutedEventArgs e)
