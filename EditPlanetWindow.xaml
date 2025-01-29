@@ -42,7 +42,7 @@
                 <Label Content="Z Position (enter in AU):"/>
                 <TextBox x:Name="ZPosTextBox" Width="200" Margin="0,0,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
 
-                <Label Content="X Velocity (enter in KM/H {earth ROT VEL ~ 100,000}):"/>
+                <Label Content="X Velocity (enter in KM/H {earth ROT VEL ~ 107,208}):"/>
                 <TextBox x:Name="XVelTextBox" Width="200" Margin="0,0,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
 
                 <Label Content="Y Velocity (enter in KM/H):"/>
@@ -51,7 +51,7 @@
                 <Label Content="Z Velocity (enter in KM/H):"/>
                 <TextBox x:Name="ZVelTextBox" Width="200" Margin="0,0,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
 
-                <Label Content="Mass (enter in terms of Earth Masses {i.e. Sun ~ 300,000}):"/>
+                <Label Content="Mass (enter in terms of Earth Masses {i.e. Sun ~ 333,000}):"/>
                 <TextBox x:Name="MassTextBox" Width="200" Margin="0,0,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
 
                 <Button Content="Save" Width="100" Height="30" Margin="0,10,0,0" Click="SaveButton_Click"/>

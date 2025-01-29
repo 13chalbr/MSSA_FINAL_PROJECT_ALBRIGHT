@@ -38,7 +38,8 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
             this.totalSimulationTime = totalSimulationTime; // Initialize the total simulation time
             this.timeStep = timeStep; // Initialize the time step
-                                      // Show the progress bar window
+
+            // Show the progress bar window
             progressBarWindow = new ProgressBarWindow();
             progressBarWindow.Show();
 
@@ -184,7 +185,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
                 // Update progress bar on the UI thread
                 double progress = (double)(i + 1) / xList.Count;
-                Dispatcher.Invoke(() => progressBarWindow.ProgressBar.Value = progress * 100);
+                Dispatcher.Invoke(() => progressBarWindow.ProgressBar.Value = progress * 100); // Update progress bar
             }
 
             transforms = new TranslateTransform3D[planetTrajectories.Count];
@@ -309,7 +310,7 @@ namespace MSSA_FINAL_PROJECT_WORKING
 
             // Update the progress bar
             double progress = elapsedTime / duration;
-            progressBarWindow.ProgressBar.Value = progress * 100;
+            progressBarWindow.ProgressBar.Value = progress * 100; // Update progress bar
 
             for (int i = 0; i < transforms.Length; i++)
             {
@@ -335,7 +336,6 @@ namespace MSSA_FINAL_PROJECT_WORKING
                     labels[i].Position = new Point3D(position.X, position.Y + 0.3, position.Z);
                 }
             }
-
         }
 
         private void PauseResumeButton_Click(object sender, RoutedEventArgs e)
@@ -356,6 +356,13 @@ namespace MSSA_FINAL_PROJECT_WORKING
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             animationSpeed = e.NewValue;
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            elapsedTime = 0; // Reset elapsed time
+            startTime = DateTime.Now; // Reset start time
+            progressBarWindow.ProgressBar.Value = 0; // Reset progress bar
         }
     }
 }
